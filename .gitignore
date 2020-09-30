@@ -3,3 +3,4 @@
 /harjoitus3
 /node_modules
 .env
+*.rest
