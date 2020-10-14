@@ -1,0 +1,52 @@
+h1 {
+    color: green;
+    font-style: italic;
+  }
+  
+  .note {
+  color: grey;
+  padding-top: 3px;
+  font-size: 15px;
+  }
+  
+  .error {
+  width: 35%;
+  color: red;
+  background: lightgrey;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  }  
+  .success {
+  width: 35%;
+  color: green;
+  background: lightgreen;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  }  
+  .blogStyle {
+    width: 35%;
+    padding-top: 5px;
+    padding-Left: 2px;
+    border:1px solid black;
+    border-collapse: collapse;
+    margin-bottom: 5px;
+  }
+  .blogStyle:nth-child(2n) {
+    background-color: lightgray;
+  }
+  p {
+    display: inline
+  }
+  p.right {
+    align-self: right;
+
+  }
+  .link:hover {
+    background-color: lightblue;
+  }
