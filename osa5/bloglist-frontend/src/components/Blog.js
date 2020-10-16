@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
 const Blog = ({ blog, user, removeBlog, addLike }) => {
-  const [visible, setVisible] = useState(true)
-  const hideShow = { display: visible ? 'none' : '' }
+  const [visible, setVisible] = useState(false)
 
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -17,16 +16,23 @@ const Blog = ({ blog, user, removeBlog, addLike }) => {
     addLike(blog)
   }
 
-  const button = visible ? 'show' : 'hide'
-  const ifUser = (user.id === blog.user.id || user.id === blog.user) ? true : false
+  const button = visible ? 'hide' : 'show'
+  let ifUser = false
+
+  if(user && blog.user){
+    ifUser = (user.id === blog.user.id || user.id === blog.user) ? true : false
+  }
   return (
     <div className='blogStyle'>
-      <div><p>Title: {blog.title}</p> <p> author: {blog.author} </p>  <button  onClick={toggleVisibility}> {button} </button></div>
-      <div style={hideShow}>
-        <div>URL: {blog.url}</div>
-        <div>Likes: {blog.likes}<button onClick={like}>like</button></div>
-        { ifUser ? <div><button onClick={remove}>delete</button></div> : null}
-      </div>
+      <div className='blog'>Title: {blog.title}, Author: {blog.author} <button id='blog-showhide' onClick={toggleVisibility}>{button}</button></div>
+      {visible ?
+        <div className='hiddenInfo'>
+          <div>URL: <span id='blog-url'>{blog.url}</span></div>
+          <div>Likes: <span id='blog-likes'>{blog.likes}</span><button id='blog-like' onClick={like}>like</button></div>
+          { user ? <div>{blog.user.name}</div>: null}
+          { ifUser ? <div><button id='blog-remove' onClick={remove}>delete</button></div> : null}
+        </div>
+        : null}
 
     </div>
   )

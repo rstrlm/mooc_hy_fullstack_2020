@@ -19,7 +19,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs(blogs)
+      setBlogs(blogs.sort((a, b) => b.likes - a.likes))
     )
   }, [])
   useEffect(() => {
@@ -73,7 +73,8 @@ const App = () => {
   const addLike = async (blog) => {
     const updatedBlog = { ...blog, likes: ++blog.likes }
     await blogService.update(blog.id, updatedBlog)
-    setBlogs(blogs.map(b => b.id !== blog.id ? b : updatedBlog))
+    const updatedBlogs = blogs.map(b => b.id !== blog.id ? b : updatedBlog)
+    setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
   }
 
 
@@ -96,7 +97,7 @@ const App = () => {
         setStatus(null)
         setStatusMessage(null)
       }, 5000)
-    } catch (exception) {
+    } catch (error) {
       setStatus('error')
       setStatusMessage('wrong credentials')
       setTimeout(() => {
@@ -134,20 +135,18 @@ const App = () => {
 
   return (
     <div>
-
+      <Notification message={statusMessage} status={status} />
       { user === null ?
-        <Toggle buttonLabel1='login'>
-          <LoginForm
-            username={username}
-            password={password} x
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />  </Toggle> :
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+        />  :
         <div>
           <h2>blogs</h2>
-          <Notification message={statusMessage} status={status} />
-          <p>Logged in as {user.name} <button onClick={handleLogout}>Logout</button></p>
+          <p>Logged in as {user.name} <button id='button-logout' onClick={handleLogout}>Logout</button></p>
           <Toggle buttonLabel1='new blog' ref={blogFromRef}>
             <BlogForm createBlog={addBlog} />
           </Toggle>
