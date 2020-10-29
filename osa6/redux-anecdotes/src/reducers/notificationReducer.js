@@ -1,9 +1,8 @@
+var timeoutId
 const notificationReducer = (state = null, action) => {
     switch(action.type) {
-        case 'VOTE':
-            return state = `You voted '${action.data.data.content}'`
-        case 'NEW':
-            return state = `You added anecdote '${action.data.content}'`
+        case 'NOTIFY':
+            return state = `${action.data}`
         case 'CLEAR':
             return state = null
         default:
@@ -11,14 +10,22 @@ const notificationReducer = (state = null, action) => {
     }
 }
 
-export const notify = (msg) => {
-    return {
+export const setNotification = (msg, time) => {
+    return async dispatch => {
+        clearTimeout(timeoutId)
+        const timer = time === isNaN(time) || null ? 5000 : (time*1000) 
+        timeoutId = setTimeout(() => {
+            console.log(timer);
+            dispatch(clearNotification())
+    }, timer)
+    dispatch ({
         type: 'NOTIFY',
-        data: {msg}
+        data: msg
+    })
     }
 }
 
-export const clear = () => {
+export const clearNotification = () => {
     return {
         type: 'CLEAR'
     }
